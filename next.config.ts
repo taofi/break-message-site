@@ -8,7 +8,8 @@ const nextConfig : NextConfig = {
     unoptimized: true, // Отключаем оптимизацию изображений для статического экспорта
   },
 
-  basePath: '', 
+  assetPrefix: '/break-message-site/', // Критически важно для GitHub Pages
+  basePath: '/break-message-site', // Добавляем basePath
 
   trailingSlash: true,
 };
