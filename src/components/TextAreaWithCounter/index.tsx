@@ -44,7 +44,7 @@ const TextAreaWithCounter = () => {
     const splitBySentences = (text: string, maxLength: number) => {
         const sentenceRegex = /[^.!?]+[.!?]+/g;
         const sentences = text.match(sentenceRegex) || [];
-        let chunks: string[] = [];
+        const chunks: string[] = [];
         let currentChunk = '';
 
         for (const sentence of sentences) {
@@ -103,7 +103,7 @@ const TextAreaWithCounter = () => {
 
         setSplitTexts(chunks);
     }, [text, splitLength, splitMode]);
-    
+
     const handleClear = useCallback(() => {
         setText('');
         setSplitTexts([]);
