@@ -1050,6 +1050,7 @@ const TextAreaWithCounter = ()=>{
     const [text, setText] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [splitTexts, setSplitTexts] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [splitLength, setSplitLength] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(80);
+    const [splitMode, setSplitMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('chars');
     const [showSettings, setShowSettings] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const textareaRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const settingsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
@@ -1092,25 +1093,35 @@ const TextAreaWithCounter = ()=>{
     const handleSplitText = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "TextAreaWithCounter.useCallback[handleSplitText]": ()=>{
             if (!text) return;
-            const chunks = [];
-            for(let i = 0; i < text.length; i += splitLength){
-                chunks.push(text.slice(i, i + splitLength));
+            let chunks = [];
+            if (splitMode === 'chars') {
+                // Разбивка по символам
+                for(let i = 0; i < text.length; i += splitLength){
+                    chunks.push(text.slice(i, i + splitLength));
+                }
+            } else {
+                // Разбивка по словам
+                const words = text.split(' ');
+                let currentChunk = '';
+                for (const word of words){
+                    if (currentChunk.length + word.length + 1 <= splitLength || currentChunk.length === 0) {
+                        currentChunk += (currentChunk ? ' ' : '') + word;
+                    } else {
+                        chunks.push(currentChunk);
+                        currentChunk = word;
+                    }
+                }
+                if (currentChunk) {
+                    chunks.push(currentChunk);
+                }
             }
             setSplitTexts(chunks);
         }
     }["TextAreaWithCounter.useCallback[handleSplitText]"], [
         text,
-        splitLength
+        splitLength,
+        splitMode
     ]);
-    const handleClear = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "TextAreaWithCounter.useCallback[handleClear]": ()=>{
-            setText('');
-            setSplitTexts([]);
-            if (textareaRef.current) {
-                textareaRef.current.style.height = 'auto';
-            }
-        }
-    }["TextAreaWithCounter.useCallback[handleClear]"], []);
     const toggleSettings = ()=>{
         setShowSettings(!showSettings);
     };
@@ -1123,15 +1134,17 @@ const TextAreaWithCounter = ()=>{
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$SettingsPanel$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
                     splitLength: splitLength,
                     setSplitLength: setSplitLength,
+                    splitMode: splitMode,
+                    setSplitMode: setSplitMode,
                     onClose: ()=>setShowSettings(false)
                 }, void 0, false, {
                     fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                    lineNumber: 69,
+                    lineNumber: 86,
                     columnNumber: 21
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                lineNumber: 68,
+                lineNumber: 85,
                 columnNumber: 17
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1146,7 +1159,7 @@ const TextAreaWithCounter = ()=>{
                         placeholder: "Введите текст..."
                     }, void 0, false, {
                         fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                        lineNumber: 78,
+                        lineNumber: 97,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1169,7 +1182,7 @@ const TextAreaWithCounter = ()=>{
                                             d: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                            lineNumber: 97,
+                                            lineNumber: 116,
                                             columnNumber: 29
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1179,18 +1192,18 @@ const TextAreaWithCounter = ()=>{
                                             d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                            lineNumber: 98,
+                                            lineNumber: 117,
                                             columnNumber: 29
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                    lineNumber: 96,
+                                    lineNumber: 115,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                lineNumber: 87,
+                                lineNumber: 106,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$ClearButton$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1198,7 +1211,7 @@ const TextAreaWithCounter = ()=>{
                                 disabled: !text && splitTexts.length === 0
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                lineNumber: 101,
+                                lineNumber: 120,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$SplitButton$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1206,7 +1219,7 @@ const TextAreaWithCounter = ()=>{
                                 disabled: !text
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                lineNumber: 102,
+                                lineNumber: 121,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$CopyButton$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1214,19 +1227,19 @@ const TextAreaWithCounter = ()=>{
                                 disabled: !text
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                lineNumber: 103,
+                                lineNumber: 122,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                        lineNumber: 86,
+                        lineNumber: 105,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                lineNumber: 77,
+                lineNumber: 96,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1237,7 +1250,7 @@ const TextAreaWithCounter = ()=>{
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                lineNumber: 106,
+                lineNumber: 125,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$ChunkList$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1245,17 +1258,17 @@ const TextAreaWithCounter = ()=>{
                 splitLength: splitLength
             }, void 0, false, {
                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                lineNumber: 110,
+                lineNumber: 129,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-        lineNumber: 65,
+        lineNumber: 82,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(TextAreaWithCounter, "nGgGD4WpVNuJ+5LSrxff7Odktto=");
+_s(TextAreaWithCounter, "08R8i7rKz6Zm1ucbUzgr5QCoECE=");
 _c = TextAreaWithCounter;
 const __TURBOPACK__default__export__ = TextAreaWithCounter;
 var _c;
