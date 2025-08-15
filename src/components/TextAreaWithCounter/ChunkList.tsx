@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import CopyButton from './CopyButton';
 
 interface ChunkListProps {
@@ -11,21 +11,22 @@ const ChunkList = ({ chunks, splitLength }: ChunkListProps) => {
 
     const setChunkRef = useCallback((el: HTMLTextAreaElement | null, index: number) => {
         chunkRefs.current[index] = el;
+        // Обновляем высоту при установке ref
+        if (el) {
+            el.style.height = 'auto';
+            el.style.height = `${el.scrollHeight}px`;
+        }
     }, []);
 
-    const handleChunkHover = useCallback((index: number, isHovering: boolean) => {
-        const chunkTextarea = chunkRefs.current[index];
-        if (chunkTextarea) {
-            if (isHovering) {
-                chunkTextarea.style.height = 'auto';
-                chunkTextarea.style.height = `${chunkTextarea.scrollHeight}px`;
-                chunkTextarea.classList.add('transition-all', 'duration-300');
-            } else {
-                const rows = Math.ceil(chunks[index].length / splitLength) || 1;
-                chunkTextarea.style.height = `${rows * 24 + 16}px`;
+    // Эффект для обновления высоты при изменении chunks
+    useEffect(() => {
+        chunkRefs.current.forEach((textarea) => {
+            if (textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = `${textarea.scrollHeight}px`;
             }
-        }
-    }, [chunks, splitLength]);
+        });
+    }, [chunks]);
 
     if (chunks.length === 0) return null;
 
@@ -36,18 +37,15 @@ const ChunkList = ({ chunks, splitLength }: ChunkListProps) => {
                 <div
                     key={index}
                     className="relative"
-                    onMouseEnter={() => handleChunkHover(index, true)}
-                    onMouseLeave={() => handleChunkHover(index, false)}
                 >
                     <textarea
                         ref={(el) => setChunkRef(el, index)}
                         value={chunk}
-                        readOnly
-                        className="chunk-textarea w-full p-3 border border-gray-300 rounded-md bg-gray-50 resize-none overflow-hidden hover:shadow-md"
+                        className="w-full p-3 pr-28 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden"
                         style={{
-                            '--base-height': `${Math.ceil(chunk.length / splitLength) * 24 + 16}px`,
-                            '--expanded-height': `${chunk.split('\n').length * 24 + 16}px`
-                        } as React.CSSProperties}
+                            minHeight: '44px', 
+                            transition: 'height 0.2s ease-out'
+                        }}
                     />
                     <div className="absolute right-2 top-2">
                         <CopyButton

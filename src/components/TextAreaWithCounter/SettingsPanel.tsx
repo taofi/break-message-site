@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-type SplitMode = 'chars' | 'words';
+type SplitMode = 'chars' | 'words' | 'sentences';
 
 interface SettingsPanelProps {
     splitLength: number;
@@ -26,6 +26,15 @@ const SettingsPanel = ({
         onClose();
     };
 
+    const getModeDescription = () => {
+        switch (localMode) {
+            case 'chars': return 'Текст будет разбит строго по указанному количеству символов';
+            case 'words': return 'Текст будет разбит по словам, сохраняя их целостность';
+            case 'sentences': return 'Текст будет разбит по предложениям (по знакам .!?)';
+            default: return '';
+        }
+    };
+
     return (
         <div className="mb-2 p-4 border border-gray-200 rounded-md bg-white shadow-lg">
             <div className="flex justify-between items-center mb-2">
@@ -39,8 +48,8 @@ const SettingsPanel = ({
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         Тип разбивки:
                     </label>
-                    <div className="flex space-x-4">
-                        <label className="inline-flex items-center">
+                    <div className="grid grid-cols-3 gap-2">
+                        <label className="inline-flex items-center p-2 border rounded-md hover:bg-gray-50">
                             <input
                                 type="radio"
                                 className="form-radio text-blue-600"
@@ -49,7 +58,7 @@ const SettingsPanel = ({
                             />
                             <span className="ml-2">По символам</span>
                         </label>
-                        <label className="inline-flex items-center">
+                        <label className="inline-flex items-center p-2 border rounded-md hover:bg-gray-50">
                             <input
                                 type="radio"
                                 className="form-radio text-blue-600"
@@ -58,12 +67,26 @@ const SettingsPanel = ({
                             />
                             <span className="ml-2">По словам</span>
                         </label>
+                        <label className="inline-flex items-center p-2 border rounded-md hover:bg-gray-50">
+                            <input
+                                type="radio"
+                                className="form-radio text-blue-600"
+                                checked={localMode === 'sentences'}
+                                onChange={() => setLocalMode('sentences')}
+                            />
+                            <span className="ml-2">По предложениям</span>
+                        </label>
                     </div>
+                    <p className="mt-1 text-xs text-gray-500">
+                        {getModeDescription()}
+                    </p>
                 </div>
                 
                 <div>
                     <label htmlFor="splitLength" className="block text-sm font-medium text-gray-700 mb-1">
-                        {localMode === 'chars' ? 'Символов в блоке:' : 'Примерная длина блока:'}
+                        {localMode === 'chars' ? 'Символов в блоке:' : 
+                         localMode === 'words' ? 'Макс. символов в блоке:' : 
+                         'Макс. длина блока:'}
                     </label>
                     <input
                         id="splitLength"

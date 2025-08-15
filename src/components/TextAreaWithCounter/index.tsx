@@ -5,10 +5,13 @@ import ClearButton from './ClearButton';
 import ChunkList from './ChunkList';
 import SettingsPanel from './SettingsPanel';
 
+type SplitMode = 'chars' | 'words' | 'sentences';
+
 const TextAreaWithCounter = () => {
     const [text, setText] = useState('');
     const [splitTexts, setSplitTexts] = useState<string[]>([]);
     const [splitLength, setSplitLength] = useState(80);
+    const [splitMode, setSplitMode] = useState<SplitMode>('chars');
     const [showSettings, setShowSettings] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const settingsRef = useRef<HTMLDivElement>(null);
@@ -38,17 +41,69 @@ const TextAreaWithCounter = () => {
             navigator.clipboard.writeText(text);
         }
     }, [text]);
+    const splitBySentences = (text: string, maxLength: number) => {
+        const sentenceRegex = /[^.!?]+[.!?]+/g;
+        const sentences = text.match(sentenceRegex) || [];
+        let chunks: string[] = [];
+        let currentChunk = '';
+
+        for (const sentence of sentences) {
+            if (currentChunk.length + sentence.length <= maxLength || currentChunk.length === 0) {
+                currentChunk += sentence;
+            } else {
+                chunks.push(currentChunk.trim());
+                currentChunk = sentence;
+            }
+        }
+
+        if (currentChunk) {
+            chunks.push(currentChunk.trim());
+        }
+
+        return chunks;
+    };
 
     const handleSplitText = useCallback(() => {
         if (!text) return;
 
-        const chunks = [];
-        for (let i = 0; i < text.length; i += splitLength) {
-            chunks.push(text.slice(i, i + splitLength));
+        let chunks: string[] = [];
+        
+        switch (splitMode) {
+            case 'chars':
+                // Разбивка по символам
+                for (let i = 0; i < text.length; i += splitLength) {
+                    chunks.push(text.slice(i, i + splitLength));
+                }
+                break;
+                
+            case 'words':
+                // Разбивка по словам
+                const words = text.split(' ');
+                let currentChunk = '';
+                
+                for (const word of words) {
+                    if (currentChunk.length + word.length + 1 <= splitLength || currentChunk.length === 0) {
+                        currentChunk += (currentChunk ? ' ' : '') + word;
+                    } else {
+                        chunks.push(currentChunk);
+                        currentChunk = word;
+                    }
+                }
+                
+                if (currentChunk) {
+                    chunks.push(currentChunk);
+                }
+                break;
+                
+            case 'sentences':
+                // Разбивка по предложениям
+                chunks = splitBySentences(text, splitLength);
+                break;
         }
-        setSplitTexts(chunks);
-    }, [text, splitLength]);
 
+        setSplitTexts(chunks);
+    }, [text, splitLength, splitMode]);
+    
     const handleClear = useCallback(() => {
         setText('');
         setSplitTexts([]);
@@ -56,7 +111,6 @@ const TextAreaWithCounter = () => {
             textareaRef.current.style.height = 'auto';
         }
     }, []);
-
     const toggleSettings = () => {
         setShowSettings(!showSettings);
     };
@@ -69,6 +123,8 @@ const TextAreaWithCounter = () => {
                     <SettingsPanel 
                         splitLength={splitLength}
                         setSplitLength={setSplitLength}
+                        splitMode={splitMode}
+                        setSplitMode={setSplitMode}
                         onClose={() => setShowSettings(false)}
                     />
                 </div>
