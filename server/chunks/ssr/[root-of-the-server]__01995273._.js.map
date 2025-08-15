@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["file:///F:/projects/break-message/break-message-site/src/pages/index.tsx"],"sourcesContent":["import { TextAreaWithCounter } from '../components';\n\nexport default function Home() {\n  return (\n    <div\n      className={`${geistSans.className} ${geistMono.className} `}\n    >\n      \n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;AAEe,SAAS;IACtB,qBACE,qKAAC;QACC,WAAW,GAAG,UAAU,SAAS,CAAC,CAAC,EAAE,UAAU,SAAS,CAAC,CAAC,CAAC;;;;;;AAKjE","debugId":null}}]
+}
