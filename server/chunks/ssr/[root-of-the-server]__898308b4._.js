@@ -190,22 +190,22 @@ const ChunkList = ({ chunks, splitLength })=>{
     const chunkRefs = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useRef"])([]);
     const setChunkRef = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useCallback"])((el, index)=>{
         chunkRefs.current[index] = el;
-    }, []);
-    const handleChunkHover = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useCallback"])((index, isHovering)=>{
-        const chunkTextarea = chunkRefs.current[index];
-        if (chunkTextarea) {
-            if (isHovering) {
-                chunkTextarea.style.height = 'auto';
-                chunkTextarea.style.height = `${chunkTextarea.scrollHeight}px`;
-                chunkTextarea.classList.add('transition-all', 'duration-300');
-            } else {
-                const rows = Math.ceil(chunks[index].length / splitLength) || 1;
-                chunkTextarea.style.height = `${rows * 24 + 16}px`;
-            }
+        // Обновляем высоту при установке ref
+        if (el) {
+            el.style.height = 'auto';
+            el.style.height = `${el.scrollHeight}px`;
         }
+    }, []);
+    // Эффект для обновления высоты при изменении chunks
+    (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
+        chunkRefs.current.forEach((textarea)=>{
+            if (textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = `${textarea.scrollHeight}px`;
+            }
+        });
     }, [
-        chunks,
-        splitLength
+        chunks
     ]);
     if (chunks.length === 0) return null;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -220,26 +220,23 @@ const ChunkList = ({ chunks, splitLength })=>{
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/TextAreaWithCounter/ChunkList.tsx",
-                lineNumber: 34,
+                lineNumber: 35,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             chunks.map((chunk, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
                     className: "relative",
-                    onMouseEnter: ()=>handleChunkHover(index, true),
-                    onMouseLeave: ()=>handleChunkHover(index, false),
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("textarea", {
                             ref: (el)=>setChunkRef(el, index),
                             value: chunk,
-                            readOnly: true,
-                            className: "chunk-textarea w-full p-3 border border-gray-300 rounded-md bg-gray-50 resize-none overflow-hidden hover:shadow-md",
+                            className: "w-full p-3 pr-28 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden",
                             style: {
-                                '--base-height': `${Math.ceil(chunk.length / splitLength) * 24 + 16}px`,
-                                '--expanded-height': `${chunk.split('\n').length * 24 + 16}px`
+                                minHeight: '44px',
+                                transition: 'height 0.2s ease-out'
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/components/TextAreaWithCounter/ChunkList.tsx",
-                            lineNumber: 42,
+                            lineNumber: 41,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -249,12 +246,12 @@ const ChunkList = ({ chunks, splitLength })=>{
                                 disabled: false
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/ChunkList.tsx",
-                                lineNumber: 53,
+                                lineNumber: 51,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/src/components/TextAreaWithCounter/ChunkList.tsx",
-                            lineNumber: 52,
+                            lineNumber: 50,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -270,19 +267,19 @@ const ChunkList = ({ chunks, splitLength })=>{
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/TextAreaWithCounter/ChunkList.tsx",
-                            lineNumber: 58,
+                            lineNumber: 56,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, index, true, {
                     fileName: "[project]/src/components/TextAreaWithCounter/ChunkList.tsx",
-                    lineNumber: 36,
+                    lineNumber: 37,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)))
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/TextAreaWithCounter/ChunkList.tsx",
-        lineNumber: 33,
+        lineNumber: 34,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
@@ -306,6 +303,18 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
         setSplitMode(localMode);
         onClose();
     };
+    const getModeDescription = ()=>{
+        switch(localMode){
+            case 'chars':
+                return 'Текст будет разбит строго по указанному количеству символов';
+            case 'words':
+                return 'Текст будет разбит по словам, сохраняя их целостность';
+            case 'sentences':
+                return 'Текст будет разбит по предложениям (по знакам .!?)';
+            default:
+                return '';
+        }
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
         className: "mb-2 p-4 border border-gray-200 rounded-md bg-white shadow-lg",
         children: [
@@ -317,7 +326,7 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                         children: "Настройки разбивки"
                     }, void 0, false, {
                         fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                        lineNumber: 32,
+                        lineNumber: 41,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -326,13 +335,13 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                         children: "×"
                     }, void 0, false, {
                         fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                        lineNumber: 33,
+                        lineNumber: 42,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                lineNumber: 31,
+                lineNumber: 40,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -345,14 +354,14 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                                 children: "Тип разбивки:"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                lineNumber: 39,
+                                lineNumber: 48,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                                className: "flex space-x-4",
+                                className: "grid grid-cols-3 gap-2",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("label", {
-                                        className: "inline-flex items-center",
+                                        className: "inline-flex items-center p-2 border rounded-md hover:bg-gray-50",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
                                                 type: "radio",
@@ -361,39 +370,12 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                                                 onChange: ()=>setLocalMode('chars')
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                                lineNumber: 44,
-                                                columnNumber: 29
-                                            }, ("TURBOPACK compile-time value", void 0)),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
-                                                className: "ml-2",
-                                                children: "По символам"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                                lineNumber: 50,
-                                                columnNumber: 29
-                                            }, ("TURBOPACK compile-time value", void 0))
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                        lineNumber: 43,
-                                        columnNumber: 25
-                                    }, ("TURBOPACK compile-time value", void 0)),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("label", {
-                                        className: "inline-flex items-center",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
-                                                type: "radio",
-                                                className: "form-radio text-blue-600",
-                                                checked: localMode === 'words',
-                                                onChange: ()=>setLocalMode('words')
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
                                                 lineNumber: 53,
                                                 columnNumber: 29
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
                                                 className: "ml-2",
-                                                children: "По словам"
+                                                children: "По символам"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
                                                 lineNumber: 59,
@@ -404,17 +386,79 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                                         fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
                                         lineNumber: 52,
                                         columnNumber: 25
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("label", {
+                                        className: "inline-flex items-center p-2 border rounded-md hover:bg-gray-50",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
+                                                type: "radio",
+                                                className: "form-radio text-blue-600",
+                                                checked: localMode === 'words',
+                                                onChange: ()=>setLocalMode('words')
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
+                                                lineNumber: 62,
+                                                columnNumber: 29
+                                            }, ("TURBOPACK compile-time value", void 0)),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                                                className: "ml-2",
+                                                children: "По словам"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
+                                                lineNumber: 68,
+                                                columnNumber: 29
+                                            }, ("TURBOPACK compile-time value", void 0))
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
+                                        lineNumber: 61,
+                                        columnNumber: 25
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("label", {
+                                        className: "inline-flex items-center p-2 border rounded-md hover:bg-gray-50",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
+                                                type: "radio",
+                                                className: "form-radio text-blue-600",
+                                                checked: localMode === 'sentences',
+                                                onChange: ()=>setLocalMode('sentences')
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
+                                                lineNumber: 71,
+                                                columnNumber: 29
+                                            }, ("TURBOPACK compile-time value", void 0)),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                                                className: "ml-2",
+                                                children: "По предложениям"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
+                                                lineNumber: 77,
+                                                columnNumber: 29
+                                            }, ("TURBOPACK compile-time value", void 0))
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
+                                        lineNumber: 70,
+                                        columnNumber: 25
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                lineNumber: 42,
+                                lineNumber: 51,
+                                columnNumber: 21
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                                className: "mt-1 text-xs text-gray-500",
+                                children: getModeDescription()
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
+                                lineNumber: 80,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                        lineNumber: 38,
+                        lineNumber: 47,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -422,10 +466,10 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("label", {
                                 htmlFor: "splitLength",
                                 className: "block text-sm font-medium text-gray-700 mb-1",
-                                children: localMode === 'chars' ? 'Символов в блоке:' : 'Примерная длина блока:'
+                                children: localMode === 'chars' ? 'Символов в блоке:' : localMode === 'words' ? 'Макс. символов в блоке:' : 'Макс. длина блока:'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                lineNumber: 65,
+                                lineNumber: 86,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
@@ -438,13 +482,13 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                                 className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                lineNumber: 68,
+                                lineNumber: 91,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                        lineNumber: 64,
+                        lineNumber: 85,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -456,7 +500,7 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                                 children: "Отмена"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                lineNumber: 80,
+                                lineNumber: 103,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -465,25 +509,25 @@ const SettingsPanel = ({ splitLength, setSplitLength, splitMode, setSplitMode, o
                                 children: "Применить"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                                lineNumber: 86,
+                                lineNumber: 109,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                        lineNumber: 79,
+                        lineNumber: 102,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-                lineNumber: 37,
+                lineNumber: 46,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/TextAreaWithCounter/SettingsPanel.tsx",
-        lineNumber: 30,
+        lineNumber: 39,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
@@ -543,29 +587,54 @@ const TextAreaWithCounter = ()=>{
     }, [
         text
     ]);
+    const splitBySentences = (text, maxLength)=>{
+        const sentenceRegex = /[^.!?]+[.!?]+/g;
+        const sentences = text.match(sentenceRegex) || [];
+        let chunks = [];
+        let currentChunk = '';
+        for (const sentence of sentences){
+            if (currentChunk.length + sentence.length <= maxLength || currentChunk.length === 0) {
+                currentChunk += sentence;
+            } else {
+                chunks.push(currentChunk.trim());
+                currentChunk = sentence;
+            }
+        }
+        if (currentChunk) {
+            chunks.push(currentChunk.trim());
+        }
+        return chunks;
+    };
     const handleSplitText = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useCallback"])(()=>{
         if (!text) return;
         let chunks = [];
-        if (splitMode === 'chars') {
-            // Разбивка по символам
-            for(let i = 0; i < text.length; i += splitLength){
-                chunks.push(text.slice(i, i + splitLength));
-            }
-        } else {
-            // Разбивка по словам
-            const words = text.split(' ');
-            let currentChunk = '';
-            for (const word of words){
-                if (currentChunk.length + word.length + 1 <= splitLength || currentChunk.length === 0) {
-                    currentChunk += (currentChunk ? ' ' : '') + word;
-                } else {
-                    chunks.push(currentChunk);
-                    currentChunk = word;
+        switch(splitMode){
+            case 'chars':
+                // Разбивка по символам
+                for(let i = 0; i < text.length; i += splitLength){
+                    chunks.push(text.slice(i, i + splitLength));
                 }
-            }
-            if (currentChunk) {
-                chunks.push(currentChunk);
-            }
+                break;
+            case 'words':
+                // Разбивка по словам
+                const words = text.split(' ');
+                let currentChunk = '';
+                for (const word of words){
+                    if (currentChunk.length + word.length + 1 <= splitLength || currentChunk.length === 0) {
+                        currentChunk += (currentChunk ? ' ' : '') + word;
+                    } else {
+                        chunks.push(currentChunk);
+                        currentChunk = word;
+                    }
+                }
+                if (currentChunk) {
+                    chunks.push(currentChunk);
+                }
+                break;
+            case 'sentences':
+                // Разбивка по предложениям
+                chunks = splitBySentences(text, splitLength);
+                break;
         }
         setSplitTexts(chunks);
     }, [
@@ -573,6 +642,13 @@ const TextAreaWithCounter = ()=>{
         splitLength,
         splitMode
     ]);
+    const handleClear = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useCallback"])(()=>{
+        setText('');
+        setSplitTexts([]);
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+        }
+    }, []);
     const toggleSettings = ()=>{
         setShowSettings(!showSettings);
     };
@@ -590,12 +666,12 @@ const TextAreaWithCounter = ()=>{
                     onClose: ()=>setShowSettings(false)
                 }, void 0, false, {
                     fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                    lineNumber: 86,
+                    lineNumber: 123,
                     columnNumber: 21
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                lineNumber: 85,
+                lineNumber: 122,
                 columnNumber: 17
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -610,7 +686,7 @@ const TextAreaWithCounter = ()=>{
                         placeholder: "Введите текст..."
                     }, void 0, false, {
                         fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                        lineNumber: 97,
+                        lineNumber: 134,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -633,7 +709,7 @@ const TextAreaWithCounter = ()=>{
                                             d: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                            lineNumber: 116,
+                                            lineNumber: 153,
                                             columnNumber: 29
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
@@ -643,18 +719,18 @@ const TextAreaWithCounter = ()=>{
                                             d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 154,
                                             columnNumber: 29
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                    lineNumber: 115,
+                                    lineNumber: 152,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                lineNumber: 106,
+                                lineNumber: 143,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$ClearButton$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -662,7 +738,7 @@ const TextAreaWithCounter = ()=>{
                                 disabled: !text && splitTexts.length === 0
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                lineNumber: 120,
+                                lineNumber: 157,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$SplitButton$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -670,7 +746,7 @@ const TextAreaWithCounter = ()=>{
                                 disabled: !text
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                lineNumber: 121,
+                                lineNumber: 158,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$CopyButton$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -678,19 +754,19 @@ const TextAreaWithCounter = ()=>{
                                 disabled: !text
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                                lineNumber: 122,
+                                lineNumber: 159,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                        lineNumber: 105,
+                        lineNumber: 142,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                lineNumber: 96,
+                lineNumber: 133,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -701,7 +777,7 @@ const TextAreaWithCounter = ()=>{
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                lineNumber: 125,
+                lineNumber: 162,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TextAreaWithCounter$2f$ChunkList$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -709,13 +785,13 @@ const TextAreaWithCounter = ()=>{
                 splitLength: splitLength
             }, void 0, false, {
                 fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-                lineNumber: 129,
+                lineNumber: 166,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/TextAreaWithCounter/index.tsx",
-        lineNumber: 82,
+        lineNumber: 119,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
