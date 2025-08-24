@@ -41,7 +41,7 @@ const ChunkList = ({ chunks, splitLength }: ChunkListProps) => {
                     <textarea
                         ref={(el) => setChunkRef(el, index)}
                         value={chunk}
-                        className="w-full p-3 pr-28 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden"
+                        className="w-full p-3 pr-8 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden"
                         style={{
                             minHeight: '44px', 
                             transition: 'height 0.2s ease-out'

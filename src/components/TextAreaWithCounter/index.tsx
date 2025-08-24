@@ -117,7 +117,6 @@ const TextAreaWithCounter = () => {
 
     return (
         <div className="max-w-lg mx-auto p-4 bg-white rounded-lg shadow-md relative">
-            {/* Панель настроек (теперь сверху) */}
             {showSettings && (
                 <div ref={settingsRef} className="relative ">
                     <SettingsPanel 
@@ -131,15 +130,7 @@ const TextAreaWithCounter = () => {
             )}
 
             <div className="relative">
-                <textarea
-                    ref={textareaRef}
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    className="w-full p-3 pr-28 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden"
-                    rows={1}
-                    placeholder="Введите текст..."
-                />
-                <div className="absolute right-2 top-2 flex gap-1">
+                <div className="relative flex">
                     <button 
                         onClick={toggleSettings}
                         className={`p-1 rounded-md transition-colors ${
@@ -158,6 +149,15 @@ const TextAreaWithCounter = () => {
                     <SplitButton onClick={handleSplitText} disabled={!text} />
                     <CopyButton onClick={handleCopy} disabled={!text} />
                 </div>
+                <textarea
+                    ref={textareaRef}
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden"
+                    rows={1}
+                    placeholder="Введите текст..."
+                />
+                
             </div>
             <div className="mt-1 text-sm text-gray-500">
                 {text.length} символов

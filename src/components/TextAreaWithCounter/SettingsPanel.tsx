@@ -48,7 +48,7 @@ const SettingsPanel = ({
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         Тип разбивки:
                     </label>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-rows-3 gap-2">
                         <label className="inline-flex items-center p-2 border rounded-md hover:bg-gray-50">
                             <input
                                 type="radio"
